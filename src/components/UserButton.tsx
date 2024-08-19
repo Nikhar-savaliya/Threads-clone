@@ -7,13 +7,25 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
+  DropdownMenuSubContent,
 } from "./ui/dropdown-menu";
 import UserAvatar from "./UserAvatar";
 import Link from "next/link";
-import { LogOut, LogOutIcon, UserIcon } from "lucide-react";
+import {
+  Check,
+  LogOut,
+  LogOutIcon,
+  Monitor,
+  MoonIcon,
+  SunIcon,
+  UserIcon,
+} from "lucide-react";
 import { logout } from "@/app/(auth)/actions";
 import { cn } from "@/lib/utils";
+import { useTheme } from "next-themes";
 
 interface UserButtonProps {
   className?: string;
@@ -21,6 +33,8 @@ interface UserButtonProps {
 
 export default function UserButton({ className }: UserButtonProps) {
   const { user } = useSession();
+
+  const { theme, setTheme } = useTheme();
 
   return (
     <DropdownMenu>
@@ -38,6 +52,28 @@ export default function UserButton({ className }: UserButtonProps) {
             Profile
           </DropdownMenuItem>
         </Link>
+        <DropdownMenuSub>
+          <DropdownMenuSubTrigger>
+            <Monitor className="mr-2 size-4" /> Theme
+          </DropdownMenuSubTrigger>
+          <DropdownMenuSubContent>
+            <DropdownMenuItem onClick={() => setTheme("system")}>
+              <Monitor className="mr-2 size-4" />
+              System
+              {theme === "system" && <Check className="ms-auto size-4" />}
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setTheme("light")}>
+              <SunIcon className="mr-2 size-4" />
+              Light
+              {theme === "light" && <Check className="ms-auto size-4" />}
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setTheme("dark")}>
+              <MoonIcon className="mr-2 size-4" />
+              dark
+              {theme === "dark" && <Check className="ms-auto size-4" />}
+            </DropdownMenuItem>
+          </DropdownMenuSubContent>
+        </DropdownMenuSub>
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => {
